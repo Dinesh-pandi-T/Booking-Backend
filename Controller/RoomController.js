@@ -104,46 +104,4 @@ exports.deleteRoom = async (req, res) => {
     });
   }
 };
-exports.getAvailableRooms = async (req, res) => {
-  const today = new Date().toISOString().split("T")[0];
 
-  const activeBookings = await Booking.find({
-    fromDate: { $lte: today },
-    toDate: { $gte: today },
-  });
-
-  const bookedRoomIds = activeBookings.map((b) => b.roomId);
-
-  const rooms = await Room.find({
-    roomId: { $nin: bookedRoomIds },
-  });
-
-  res.json({ data: rooms });
-};
-
-exports.updateRoomAvailability = async (req, res) => {
-  try {
-    const room = await Room.findOneAndUpdate(
-      { roomId: req.params.roomId }, 
-      { available: false },
-      { new: true }
-    );
-
-    if (!room) {
-      return res.status(404).json({
-        status: "Fail",
-        message: "Room not found",
-      });
-    }
-
-    res.status(200).json({
-      status: "Success",
-      data: room,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "Fail",
-      message: err.message,
-    });
-  }
-};

@@ -11,7 +11,7 @@ app.use("/api/users", userRouter);
 const roomRouter = require("./Route/RoomRouter");
 app.use("/api/rooms", roomRouter);
 
-const bookingRouter = require("./Route/BookingRouter");
-app.use("/api/bookings", bookingRouter);
+const bookRouter = require("./Route/BookingRouter");
+app.use("/api/bookings", bookRouter);
 
 module.exports = app;
